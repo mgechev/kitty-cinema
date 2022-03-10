@@ -1,16 +1,14 @@
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { TMDBPersonModel } from '../model/person.model';
-import { baseUrlApiV3 } from './internal/base-urls.constant';
 import { getHTTP } from '../../../shared/injector/get-http-client';
-import { TMDBAppendOptions } from './model/append-options';
+import { mapDocuments } from './firestore-mapper';
 
 export type PersonResponse = TMDBPersonModel;
 
-const URL_PERSON = (id: string) => `${[baseUrlApiV3, 'person', id].join('/')}`;
+const URL_PERSON = (id: string) => `${['https://firestore.googleapis.com/v1/projects/movies-app-mgechev/databases/(default)/documents/credit', id].join('/')}`;
 
 export const getPerson = (
   id: string,
-  params: TMDBAppendOptions = { append_to_response: 'videos' }
 ): Observable<PersonResponse> => {
-  return getHTTP().get<PersonResponse>(URL_PERSON(id), { params });
+  return getHTTP().get<PersonResponse>(URL_PERSON(id)).pipe(map(data => mapDocuments(data)));
 };

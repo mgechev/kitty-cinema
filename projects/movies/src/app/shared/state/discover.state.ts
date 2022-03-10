@@ -51,7 +51,7 @@ export class DiscoverState extends RxState<State> implements AppInitializer {
         optimizedFetch(
           (genre: string) => genre,
           (with_genres: string) =>
-            getDiscoverMovies({ with_genres, page: 1 }).pipe(
+            getDiscoverMovies().pipe(
               map((resp) => ({ value: { [with_genres]: resp } })),
               withLoadingEmission()
             )
@@ -73,7 +73,7 @@ export class DiscoverState extends RxState<State> implements AppInitializer {
         optimizedFetch(
           (person) => person,
           (with_cast: string) =>
-            getDiscoverMovies({ with_cast, page: 1 }).pipe(
+            getDiscoverMovies().pipe(
               map((resp) => ({ value: { [with_cast]: resp } })),
               withLoadingEmission()
             )

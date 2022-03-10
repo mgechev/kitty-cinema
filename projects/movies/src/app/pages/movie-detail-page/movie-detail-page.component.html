@@ -23,25 +23,6 @@
             [rating]="movie?.vote_average"
             [showRating]="true"
           ></ui-star-rating>
-          <div class="movie-detail--languages-runtime-release">
-            <strong>{{ movie?.languages_runtime_release }}</strong>
-          </div>
-        </section>
-        <section>
-          <h3>The Genres</h3>
-          <div class="movie-detail--genres">
-            <a
-              class="movie-detail--genres-link"
-              *ngFor="
-                let genre of movie?.genres;
-                trackBy: trackByGenre
-              "
-              [routerLink]="['/list/genre/', genre.id]"
-            >
-              <svg-icon name="genre" style="margin-right: .5rem"></svg-icon>
-              {{ genre.name }}
-            </a>
-          </div>
         </section>
         <section>
           <h3>The Synopsis</h3>
@@ -63,7 +44,7 @@
                   loading="lazy"
                   [src]="
                   c?.profile_path
-                    ? 'https://image.tmdb.org/t/p/w185' + c.profile_path
+                    ? 'assets/images/kitties/' + c.profile_path
                     : 'assets/images/no_poster_available.jpg'
                 "
                   [alt]="c.name"
@@ -76,36 +57,6 @@
           </div>
         </section>
         <section class="movie-detail--ad-section-links">
-          <a
-            class="btn"
-            target="_blank"
-            rel="noopener noreferrer"
-            [href]="movie?.homepage"
-          >
-            Website
-            <svg-icon class="btn__icon" name="website"></svg-icon>
-          </a>
-          <a
-            *ngIf="movie?.imdb_id"
-            class="btn"
-            target="_blank"
-            rel="noopener noreferrer"
-            [href]="'https://www.imdb.com/title/' + movie?.imdb_id"
-          >
-            IMDB
-            <svg-icon class="btn__icon" name="imdb"></svg-icon>
-          </a>
-          <a
-            *ngIf="movie?.videoUrl"
-            class="btn"
-            (mouseover)="ui.dialog('load')"
-            (click)="$event.preventDefault(); ui.dialog('open');"
-            href="#trainer"
-          >
-            Trailer
-            <svg-icon class="btn__icon" name="play"></svg-icon>
-          </a>
-
           <dialog class="video" #trailerDialog id="trailer-dialog" >
             <span aria-controls="trailer-dialog" class="close" (click)="ui.dialog('close')"></span>
             <!--

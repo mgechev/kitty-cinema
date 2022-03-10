@@ -71,7 +71,7 @@ export class ListState extends RxState<ListModel> implements AppInitializer {
     ),
     this.actions.deleteList$.pipe(
       tap((id) => id && this.router.navigate(['account/my-lists'])),
-      concatMap((id) => deleteList(id))
+      concatMap(() => deleteList())
     )
   );
 
@@ -82,7 +82,7 @@ export class ListState extends RxState<ListModel> implements AppInitializer {
       'lists',
       this.actions.fetchList$.pipe(
         filter((id) => !isNaN(Number(id))),
-        concatMap((id) => fetchList(id))
+        concatMap(() => fetchList())
       ),
       (state, list) => patch(state?.lists || {}, list)
     );

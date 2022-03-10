@@ -37,8 +37,8 @@ export class MovieDetailAdapter extends RxState<any> {
 
   readonly movieCastById$: Observable<WithContext<TMDBMovieCastModel[]>> =
     this.routerMovieId$.pipe(
-      switchMap((id) =>
-        getCredits(id).pipe(map(({ cast: value }) => ({ value })))
+      switchMap(() =>
+        getCredits().pipe(map((value: any) => ({ value })))
       ),
       withLoadingEmission()
     );
@@ -46,9 +46,9 @@ export class MovieDetailAdapter extends RxState<any> {
   readonly infiniteScrollRecommendations$ = this.routerMovieId$.pipe(
     switchMap((id) =>
       infiniteScroll(
-        (incrementedParams) => getMoviesRecommendations(id, incrementedParams),
+        () => getMoviesRecommendations(id),
         this.actions.paginateRecommendations$,
-        getMoviesRecommendations(id, { page: 1 })
+        getMoviesRecommendations(id)
       )
     )
   );

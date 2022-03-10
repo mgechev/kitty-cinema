@@ -11,13 +11,13 @@ export function addImageTag<T extends Object>(
   }
 ): T & ImageTag {
   let { pathProp, fallback, baseUrl, dims } = options;
-  baseUrl = baseUrl || `https://image.tmdb.org/t/p/w`;
+  baseUrl = baseUrl || `/assets/images/`;
   fallback = fallback || `assets/images/no_poster_available.jpg`;
 
   const res = _res as T & ImageTag;
 
   res.imgUrl = res[pathProp]
-    ? `${baseUrl}${dims.WIDTH}/${res[pathProp]}`
+    ? `${baseUrl}/${res[pathProp]}`
     : fallback;
   res.imgWidth = dims.WIDTH;
   res.imgHeight = dims.HEIGHT;

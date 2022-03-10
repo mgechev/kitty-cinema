@@ -57,23 +57,23 @@ export class PersonDetailAdapter extends RxState<PersonDetailPageAdapterState> {
 
   readonly movieRecommendationsById$ = this.routerPersonId$.pipe(
     combineLatestWith(this.routerState.select('sortBy')),
-    switchMap(([with_cast, sort_by]) => {
+    switchMap(() => {
       return infiniteScroll(
-        (options) => getDiscoverMovies({ with_cast, ...options, sort_by }),
+        () => getDiscoverMovies(),
         this.actions.paginate$,
-        getDiscoverMovies({ with_cast, page: 1, sort_by })
+        getDiscoverMovies()
       );
     })
   );
 
   readonly sortingEvent$ = this.actions.sortBy$.pipe(
     withLatestFrom(this.routerPersonId$),
-    switchMap(([{ value }, with_cast]) => {
+    switchMap(() => {
       return infiniteScroll(
-        (options) =>
-          getDiscoverMovies({ with_cast, ...options, sort_by: value }),
+        () =>
+          getDiscoverMovies(),
         this.actions.paginate$,
-        getDiscoverMovies({ with_cast, page: 1, sort_by: value })
+        getDiscoverMovies()
       );
     })
   );

@@ -83,7 +83,7 @@ export class MovieListPageAdapter extends RxState<MovieListPageModel> {
         map(([slice, generes]) => {
           // genre identifier needs to get mapped to a real title
           if (slice.type === 'genre') {
-            slice.identifier = generes[parseInt(slice.identifier)].name;
+            slice.identifier = generes[slice.identifier].name;
           }
           return slice;
         })
@@ -104,6 +104,7 @@ export class MovieListPageAdapter extends RxState<MovieListPageModel> {
             this.getInitialFetchByType({ type, identifier })
           )
         )
+        
       )
     );
 
@@ -134,8 +135,7 @@ function getFetchByType(
   } else if (type === 'search') {
     return getSearch;
   } else if (type === 'genre') {
-    return (with_genres: string, options: TMDBPaginateOptions) =>
-      getDiscoverMovies({ ...options, with_genres });
+    return getDiscoverMovies;
   }
 
   return (_: string, __?: TMDBPaginateOptions) => emptyResult$;

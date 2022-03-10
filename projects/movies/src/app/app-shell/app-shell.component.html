@@ -94,15 +94,10 @@
       >
       </ui-hamburger-button>
       <div class="ui-toolbar--widget-container">
-        <ui-search-bar
-          [query]="search$"
-          (searchSubmit)="searchMovie($event)"
-        ></ui-search-bar>
         <ui-dark-mode-toggle></ui-dark-mode-toggle>
         <div class="account-menu-dropdown">
           <button type="button" name="profile" class="profile-button" (mouseenter)="ui.loadAccountMenu();">
             <div class="focus-overlay"></div>
-            <svg-icon name="account"></svg-icon>
           </button>
           <div class="account-menu-content">
             <ng-container
