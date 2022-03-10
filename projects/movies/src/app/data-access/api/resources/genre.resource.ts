@@ -13,7 +13,7 @@ const URL_GENRE_MOVIE_LIST = 'https://firestore.googleapis.com/v1/projects/movie
 export const getGenres = (): Observable<GenresResponse> =>
   getHTTP()
     .get<GenresServerResponse>(URL_GENRE_MOVIE_LIST)
-    .pipe(map(mapDocuments));
+    .pipe(map(data => mapDocuments(data)));
 
 export const getGenresCached = staticRequest(getGenres);
 

@@ -6,7 +6,7 @@ import {
   Output,
   ViewEncapsulation,
 } from '@angular/core';
-import { filter, map, Observable, tap } from 'rxjs';
+import { filter, map, Observable } from 'rxjs';
 import { TMDBMovieModel } from '../../../data-access/api/model/movie.model';
 import { W300H450 } from '../../../data-access/api/constants/image-sizes';
 import { ImageTag } from '../../../shared/utils/image/image-tag.interface';
@@ -89,11 +89,6 @@ export class MovieListComponent {
 
   @Input()
   set movies(movies$: RxInputType<TMDBMovieModel[] | null | undefined>) {
-    (movies$ as Observable<any>).pipe(
-      tap(m => {
-        console.log(m)
-      })
-    );
     this.state.connect('movies', coerceObservable(movies$));
   }
 

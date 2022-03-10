@@ -22,7 +22,7 @@ export const createList = (
 export const fetchList = (): Observable<Record<string, TMDBListModel>> =>
   getHTTP()
     .get<TMDBListModel>(URL_LIST_BASE)
-    .pipe(map(mapDocuments));
+    .pipe(map(data => mapDocuments(data, false)));
 
 export const updateList = (params: TMDBListCreateUpdateParams) =>
   getHTTP().put(URL_LIST_BASE, params);

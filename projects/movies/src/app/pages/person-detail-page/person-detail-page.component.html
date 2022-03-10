@@ -6,10 +6,7 @@
           class="aspectRatio-2-3 fit-cover"
           [src]="
             person?.profile_path
-              ? 'https://image.tmdb.org/t/p/w' +
-                person.imgWidth +
-                '/' +
-                person.profile_path
+              ? 'assets/images/kitties/' + person.profile_path
               : 'assets/images/no_poster_available.jpg'
           "
           [width]="person.imgWidth"

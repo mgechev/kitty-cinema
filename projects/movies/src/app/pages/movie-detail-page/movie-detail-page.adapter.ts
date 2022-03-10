@@ -38,7 +38,7 @@ export class MovieDetailAdapter extends RxState<any> {
   readonly movieCastById$: Observable<WithContext<TMDBMovieCastModel[]>> =
     this.routerMovieId$.pipe(
       switchMap(() =>
-        getCredits().pipe(map(({ cast: value }) => ({ value })))
+        getCredits().pipe(map((value: any) => ({ value })))
       ),
       withLoadingEmission()
     );
