@@ -26,6 +26,14 @@ export class MovieListPageComponent {
 
   constructor(private adapter: MovieListPageAdapter) {
     this.adapter.set({ loading: true });
+
+    this.loading$.subscribe((res) => {
+      console.log(res);
+    });
+
+    this.movies$.subscribe((res) => {
+      console.log(res);
+    });
   }
 
   paginate() {

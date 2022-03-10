@@ -1,18 +1,16 @@
 import { map, Observable } from 'rxjs';
-import { baseUrlApiV4 } from './internal/base-urls.constant';
 import { getHTTP } from '../../../shared/injector/get-http-client';
 import {
   TMDBAddMovieToListParams,
   TMDBListCreateUpdateParams,
   TMDBListModel,
 } from '../model/list.model';
+import { mapDocuments } from './firestore-mapper';
 
 export type ListCreateResponse = { id: number };
 
-const URL_LIST_BASE = [baseUrlApiV4, 'list'].join('/');
-const URL_EXISTING_LIST = (id: number) => [URL_LIST_BASE, id].join('/');
-const URL_ADD_MOVIE_TO_LIST = (id: number) =>
-  [URL_EXISTING_LIST(id), 'items'].join('/');
+
+const URL_LIST_BASE = 'https://firestore.googleapis.com/v1/projects/movies-app-mgechev/databases/(default)/documents/movie';
 
 export const createList = (
   params: TMDBListCreateUpdateParams
@@ -21,20 +19,18 @@ export const createList = (
     .post<ListCreateResponse>(URL_LIST_BASE, params)
     .pipe(map(({ id }) => id));
 
-export const fetchList = (
-  id: string
-): Observable<Record<string, TMDBListModel>> =>
+export const fetchList = (): Observable<Record<string, TMDBListModel>> =>
   getHTTP()
-    .get<TMDBListModel>(URL_EXISTING_LIST(+id))
-    .pipe(map((list) => ({ [id]: list })));
+    .get<TMDBListModel>(URL_LIST_BASE)
+    .pipe(map(mapDocuments));
 
 export const updateList = (params: TMDBListCreateUpdateParams) =>
-  getHTTP().put(URL_EXISTING_LIST(params.id || 0), params);
+  getHTTP().put(URL_LIST_BASE, params);
 
 export const addMovieToList = (params: TMDBAddMovieToListParams) =>
-  getHTTP().post(URL_ADD_MOVIE_TO_LIST(params.id), params);
+  getHTTP().post(URL_LIST_BASE, params);
 export const deleteMovieFromList = (params: TMDBAddMovieToListParams) =>
-  getHTTP().delete(URL_ADD_MOVIE_TO_LIST(params.id), { body: params });
+  getHTTP().delete(URL_LIST_BASE, { body: params });
 
-export const deleteList = (id: string) =>
-  getHTTP().delete(URL_EXISTING_LIST(+id));
+export const deleteList = () =>
+  getHTTP().delete(URL_LIST_BASE);
