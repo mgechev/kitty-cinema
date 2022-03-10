@@ -99,6 +99,9 @@ export class MovieState extends RxState<MovieModel> implements AppInitializer {
           oldState?.categoryMovies?.value,
           resultState?.value
         );
+        if (resultState?.value) {
+          resultState.loading = false;
+        }
         return resultState;
       }
     );
