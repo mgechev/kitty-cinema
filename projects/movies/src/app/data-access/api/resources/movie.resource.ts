@@ -13,8 +13,7 @@ const base = 'https://firestore.googleapis.com/v1/projects/movies-app-mgechev/da
 const URL_MOVIE_CATEGORY = (_: string) => [base].join('/');
 const URL_MOVIE = (id: string) => `${[base, id].join('/')}`;
 const URL_MOVIE_CREDITS = 'https://firestore.googleapis.com/v1/projects/movies-app-mgechev/databases/(default)/documents/credit';
-const URL_MOVIE_RECOMMENDATIONS = (id: string) =>
-  [URL_MOVIE(id)].join('/');
+const URL_MOVIE_RECOMMENDATIONS = (_: string) => base;
 const URL_MOVIE_QUERY = (_: string) =>
   `${baseUrlApiV3}/search/movie`;
 
@@ -39,7 +38,7 @@ export type RecommendationsResponse = TMDBPaginateResult<TMDBMovieModel>;
 export const getMoviesRecommendations = (
   id: string,
 ): Observable<RecommendationsResponse> => {
-  return getHTTP().get<RecommendationsResponse>(URL_MOVIE_RECOMMENDATIONS(id)).pipe(map((movie) => mapDocuments(movie, true)));
+  return getHTTP().get<RecommendationsResponse>(URL_MOVIE_RECOMMENDATIONS(id)).pipe(map((movie) => mapDocuments(movie, false)));
 };
 
 export const queryMovie = (query: string): Observable<MovieResponse[]> =>

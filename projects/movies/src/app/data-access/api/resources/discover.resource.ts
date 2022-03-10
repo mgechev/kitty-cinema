@@ -4,8 +4,9 @@ import {
   TMDBPaginateResult,
   TMDBPaginateOptions,
 } from '../paginate/paginate.interface';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { TMDBSortOptions } from '../sort/sort.interface';
+import { mapDocuments } from './firestore-mapper';
 
 const URL_DISCOVER_MOVIE = 'https://firestore.googleapis.com/v1/projects/movies-app-mgechev/databases/(default)/documents/movie';
 
@@ -23,4 +24,4 @@ export type TMDBDiscoverResponse = TMDBSortOptions &
  * @param discoverOptions
  */
 export const getDiscoverMovies = (): Observable<TMDBDiscoverResponse> =>
-  getHTTP().get<TMDBDiscoverResponse>(URL_DISCOVER_MOVIE);
+  getHTTP().get<TMDBDiscoverResponse>(URL_DISCOVER_MOVIE).pipe(map(data => mapDocuments(data, false)));

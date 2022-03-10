@@ -8,7 +8,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { map } from 'rxjs';
+import { map, withLatestFrom } from 'rxjs';
 import { TMDBMovieCastModel } from '../../data-access/api/model/movie-credits.model';
 import { TMDBMovieGenreModel } from '../../data-access/api/model/movie-genre.model';
 
@@ -33,7 +33,14 @@ export class MovieDetailPageComponent {
     select('loading')
   );
   readonly infiniteScrollRecommendations$ =
-    this.adapter.infiniteScrollRecommendations$;
+    this.adapter.infiniteScrollRecommendations$
+    .pipe(
+      withLatestFrom(this.movie$, (data, movie) => ({ data, movie })),
+      map(({ data, movie }) => {
+        data.results = data.results.filter((r) => r.id !== movie.id);
+        return data;
+      })
+    );
 
   @ViewChild('trailerDialog')
   trailerDialog: ElementRef | undefined = undefined;
